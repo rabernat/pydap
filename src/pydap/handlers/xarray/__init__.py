@@ -56,7 +56,8 @@ class XarrayHandler(BaseHandler):
                 # add grids
                 for key, var in source.data_vars.items():
                     v = GridType(key)
-                    v[key] = BaseType(key, var.values, dimensions=var.dims,
+                    # using .data instead of .values allows a dask array to be passed
+                    v[key] = BaseType(key, var.data, dimensions=var.dims,
                                       **var.attrs)
                     for d in var.dims:
                         v[d] = BaseType(d, var[d].values)
@@ -64,7 +65,7 @@ class XarrayHandler(BaseHandler):
                 # ensure all dims are stored in ds
                 for d in source.coords:
                     self.dataset[d] = BaseType(d, source[d].values,
-                                               dimensions=(d, ),
+                                               dimensions=source[d].dims,
                                                **source[d].attrs)
 
         except Exception as exc:

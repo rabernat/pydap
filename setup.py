@@ -124,7 +124,7 @@ setup(name='pydap',
       test_suite="pydap.tests",
       entry_points="""
             [pydap.handler]
-            nc = pydap.handlers.netcdf:NetCDFHandler
+            nc = pydap.handlers.xarray:XarrayHandler
 
             [pydap.response]
             das = pydap.responses.das:DASResponse
